@@ -39,7 +39,23 @@ class CarPolicy {
         return $interval->format("%y");
     }
 
+    public function getDiscount() {
+        $yearsNoClaims = $this->getTotalYearsNoClaims();
+        if ($yearsNoClaims >= 3 && $yearsNoClaims <= 5) {
+            return 0.10; // 10% discount
+        } elseif ($yearsNoClaims > 5) {
+            return 0.15; // 15% discount
+        }
+        return 0.00; // No discount
+    }
+
+    public function getDiscountedPremium() {
+        $discount = $this->getDiscount();
+        return $this->premium * (1 - $discount); // Calculate discounted premium
+    }
+
     public function __toString() {
         return "PN: " . $this->policyNumber;
     }
 }
+?>
